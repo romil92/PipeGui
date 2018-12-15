@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 
 public class PipeDisplayer extends Canvas{
 
@@ -59,15 +60,15 @@ public class PipeDisplayer extends Canvas{
 			double w=W/pipeGame.get(0).length();
 			double h=H/pipeGame.size();
 			
+			GraphicsContext gc=this.getGraphicsContext2D();
 			
-		}
-		
-		for(int i=0;i<pipeGame.size();i++) {
-			for(int j=0;j<pipeGame.get(0).length();j++) {
+			for(int i=0;i<pipeGame.size();i++) {
+				for(int j=0;j<pipeGame.get(0).length();j++) {
+					gc.fillRect(j*w, i*h, w, h);
 				
+				}
 				
 			}
-			
 		}
 		
 	}
