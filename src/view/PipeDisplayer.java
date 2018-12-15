@@ -18,7 +18,12 @@ public class PipeDisplayer extends Canvas{
 	@FXML
 	PipeDisplayer pipeDisplayer;
 	
+	public PipeDisplayer() {
+		pipeGame = new ArrayList<String>();
+	}
+	
 	public void setPipeDisplayer(File game) {
+		System.out.println(game);
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new FileReader (game));
@@ -29,28 +34,27 @@ public class PipeDisplayer extends Canvas{
 	    String         line = null;
 	    StringBuilder  stringBuilder = new StringBuilder();
 	    String         ls = System.getProperty("line.separator");
-	    try {
+
 	        try {
 				while((line = reader.readLine()) != null) {
-				    pipeGame.add(stringBuilder.append(line).toString());
+				    pipeGame.add(line);
 				    //stringBuilder.append("/n");
-				    stringBuilder.delete(0,stringBuilder.length());
+				    //stringBuilder.delete(0,stringBuilder.length());
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-	       
-	    } finally {
+	       System.out.println(pipeGame.toString());
+
 	        try {
 				reader.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-	    }		
-	    redraw();
+			}	
+	    //redraw();
 	}
 	
 	public void redraw() {

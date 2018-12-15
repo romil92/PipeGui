@@ -65,6 +65,6 @@
       </HBox>
    </bottom>
    <center>
-      <PipeDisplayer fx:id="pipeData" height="399.0" width="400.0" BorderPane.alignment="CENTER" />
+      <PipeDisplayer fx:id="pipeDisplayer" height="399.0" width="400.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

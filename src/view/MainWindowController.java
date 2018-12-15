@@ -8,12 +8,8 @@ import javafx.stage.FileChooser;
 public class MainWindowController {
 	
 	@FXML
-	PipeDisplayer pipeDisplater;
+	PipeDisplayer pipeDisplayer;
 	
-	public MainWindowController() {
-		pipeDisplater.setPipeDisplayer(null);
-		
-	}
 	
 	public void start() {
 		
@@ -26,11 +22,11 @@ public class MainWindowController {
 		fc.setTitle("open pipe game file");
 		fc.setInitialDirectory(new File("./resources"));
 		//fc.getSelectedExtensionFilter()
-	//	File chosen = fc.showOpenDialog(null);
+		File chosen = fc.showOpenDialog(null);
 		
-	//	if(chosen != null) {
-			//pipeDisplater.setPipeDisplayer(chosen);;
-		//}
+		if(chosen != null) {
+			pipeDisplayer.setPipeDisplayer(chosen);
+		}
 		
 	}
 }
