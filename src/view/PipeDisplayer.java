@@ -13,6 +13,8 @@ import javax.swing.ImageIcon;
 
 import com.sun.javafx.tk.Toolkit;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -22,12 +24,101 @@ import javafx.scene.paint.Color;
 public class PipeDisplayer extends Canvas{
 
 	ArrayList<String> pipeGame;
-	
+	private StringProperty s;
+	private	StringProperty g;
+	private StringProperty L;
+	private StringProperty f;
+	private StringProperty j;
+	private StringProperty seven;
+	private StringProperty finished;
+	private StringProperty hor;
+	private StringProperty ver;
 	@FXML
 	PipeDisplayer pipeDisplayer;
 	
+	public String getHor() {
+		return hor.get();
+	}
+
+	public void setHor(String hor) {
+		this.hor.set(hor);
+	}
+
+	public String getVer() {
+		return ver.get();
+	}
+
+	public void setVer(String ver) {
+		this.ver.set(ver);
+	}
+
+	public String getS() {
+		return s.get();
+	}
+
+	public void setS(String s) {
+		this.s.set(s);
+	}
+
+	public String getG() {
+		return g.get();
+	}
+
+	public void setG(String g) {
+		this.g.set(g);
+	}
+
+	public String getL() {
+		return L.get();
+	}
+
+	public void setL(String l) {
+		this.L.set(l);
+	}
+
+	public String getF() {
+		return f.get();
+	}
+
+	public void setF(String f) {
+		this.f.set(f);
+	}
+
+	public String getJ() {
+		return j.get();
+	}
+
+	public void setJ(String j) {
+		this.j.set(j);
+	}
+
+	public String getSeven() {
+		return seven.get();
+	}
+
+	public void setSeven(String seven) {
+		this.seven.set(seven);
+	}
+
+	public String getFinished() {
+		return finished.get();
+	}
+
 	public PipeDisplayer() {
 		pipeGame = new ArrayList<String>();
+		this.s=new SimpleStringProperty();
+		this.f=new SimpleStringProperty();
+		this.g=new SimpleStringProperty();
+		this.j=new SimpleStringProperty();
+		this.L=new SimpleStringProperty();
+		this.finished=new SimpleStringProperty();
+		this.seven=new SimpleStringProperty();
+		this.ver=new SimpleStringProperty();
+		this.hor=new SimpleStringProperty();
+	}
+	
+	public void setFinished(StringProperty finished) {
+		this.finished = finished;
 	}
 	
 	public void setPipeDisplayer(File game) {
@@ -75,14 +166,14 @@ public class PipeDisplayer extends Canvas{
 			GraphicsContext gc=this.getGraphicsContext2D();
 			Image startImage=null;
 			try {
-				startImage = new Image(new FileInputStream("./resources/spongeBoB/sad spongeBob.png"));
+				startImage = new Image(new FileInputStream(s.get()));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Image horizontal=null;
 			try {
-				horizontal = new Image(new FileInputStream("./resources/spongeBoB/horizontal.jpeg"));
+				horizontal = new Image(new FileInputStream(hor.get()));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -90,7 +181,7 @@ public class PipeDisplayer extends Canvas{
 			
 			Image leftDown=null;
 			try {
-				leftDown = new Image(new FileInputStream("./resources/spongeBoB/left-down.jpeg"));
+				leftDown = new Image(new FileInputStream(seven.get()));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -98,7 +189,7 @@ public class PipeDisplayer extends Canvas{
 			
 			Image leftUp=null;
 			try {
-				leftUp = new Image(new FileInputStream("./resources/spongeBoB/left-up.jpeg"));
+				leftUp = new Image(new FileInputStream(j.get()));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -106,7 +197,7 @@ public class PipeDisplayer extends Canvas{
 			
 			Image rightDown=null;
 			try {
-				rightDown = new Image(new FileInputStream("./resources/spongeBoB/right-down.jpeg"));
+				rightDown = new Image(new FileInputStream(f.get()));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -114,7 +205,7 @@ public class PipeDisplayer extends Canvas{
 			
 			Image rightUp=null;
 			try {
-				rightUp = new Image(new FileInputStream("./resources/spongeBoB/right-up.jpeg"));
+				rightUp = new Image(new FileInputStream(L.get()));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -122,7 +213,7 @@ public class PipeDisplayer extends Canvas{
 			
 			Image vertical=null;
 			try {
-				vertical = new Image(new FileInputStream("./resources/spongeBoB/vertical.jpeg"));
+				vertical = new Image(new FileInputStream(ver.get()));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -130,13 +221,16 @@ public class PipeDisplayer extends Canvas{
 			
 			Image goal=null;
 			try {
-				goal = new Image(new FileInputStream("./resources/spongeBoB/sponge pinnapple.png"));
+				goal = new Image(new FileInputStream(g.get()));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			//TODO set finished photo
+			
 			
 			gc.setFill(Color.WHITE);
+			
 			for(int i=0;i<pipeGame.size();i++) {
 				for(int j=0;j<pipeGame.get(0).length();j++) {
 					switch (pipeGame.get(i).charAt(j)) {
