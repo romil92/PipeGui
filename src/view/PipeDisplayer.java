@@ -1,17 +1,8 @@
 package view;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
-
-import com.sun.javafx.tk.Toolkit;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -19,11 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
 public class PipeDisplayer extends Canvas{
 
-	ArrayList<String> pipeGame;
+	private ArrayList<String> pipeGame;
 	private StringProperty s;
 	private	StringProperty g;
 	private StringProperty L;
@@ -33,9 +25,50 @@ public class PipeDisplayer extends Canvas{
 	private StringProperty finished;
 	private StringProperty hor;
 	private StringProperty ver;
+
 	@FXML
 	PipeDisplayer pipeDisplayer;
+
 	
+	public void pipeClicked(int x,int y) {
+		StringBuilder row=new StringBuilder(pipeGame.get(y));
+		ArrayList<String> a=new ArrayList<String>(pipeGame);
+		char clicked =row.charAt(x);
+		
+		switch (clicked) {
+		case 'f':
+			row.setCharAt(x, '7');
+			break;
+
+		case 'j':
+			row.setCharAt(x, 'L');
+			break;
+		
+		case 'L':
+			row.setCharAt(x, 'f');
+			break;
+		
+		case '7':
+			row.setCharAt(x, 'j');
+			break;
+			
+		case '|':
+			row.setCharAt(x, '-');
+			break;
+	
+		case '-':
+			row.setCharAt(x, '|');
+			break;
+	
+		default:
+			break;
+		}
+		
+		a.set(y,row.toString());
+		this.setPipeDisplayer(a);
+		
+		
+	}
 	public String getHor() {
 		return hor.get();
 	}
@@ -43,7 +76,7 @@ public class PipeDisplayer extends Canvas{
 	public void setHor(String hor) {
 		this.hor.set(hor);
 	}
-
+	
 	public String getVer() {
 		return ver.get();
 	}
@@ -103,6 +136,7 @@ public class PipeDisplayer extends Canvas{
 	public String getFinished() {
 		return finished.get();
 	}
+	
 
 	public PipeDisplayer() {
 		pipeGame = new ArrayList<String>();
@@ -121,41 +155,54 @@ public class PipeDisplayer extends Canvas{
 		this.finished = finished;
 	}
 	
-	public void setPipeDisplayer(File game) {
-		System.out.println(game);
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader (game));
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	    String         line = null;
-	    StringBuilder  stringBuilder = new StringBuilder();
-	    String         ls = System.getProperty("line.separator");
-
-	        try {
-				while((line = reader.readLine()) != null) {
-				    pipeGame.add(line);
-				    //stringBuilder.append("/n");
-				    //stringBuilder.delete(0,stringBuilder.length());
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-	       System.out.println(pipeGame.toString());
-
-	        try {
-				reader.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-	    redraw();
+	public void setPipeDisplayer(ArrayList<String> game) {
+		pipeGame=game;
+		if(pipeGame!=null)
+			redraw();
 	}
 	
+	@Override
+	public boolean isResizable() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public double minHeight(double width) {
+		// TODO Auto-generated method stub
+		return 90;
+	}
+	@Override
+	public double maxHeight(double width) {
+		// TODO Auto-generated method stub
+		return 1200;
+	}
+	@Override
+	public double prefHeight(double width) {
+		// TODO Auto-generated method stub
+		return super.prefHeight(width);
+	}
+	@Override
+	public double minWidth(double height) {
+		// TODO Auto-generated method stub
+		return 10;
+	}
+	@Override
+	public double maxWidth(double height) {
+		// TODO Auto-generated method stub
+		return 1200;
+	}
+	@Override
+	public double prefWidth(double height) {
+		// TODO Auto-generated method stub
+		return super.prefWidth(height);
+	}
+	@Override
+	public void resize(double width, double height) {
+		// TODO Auto-generated method stub
+		super.setWidth(width-15);
+		super.setHeight(height-10);
+		redraw();
+	}
 	public void redraw() {
 		if(pipeGame!=null) {
 			double W=this.getWidth();
@@ -228,7 +275,7 @@ public class PipeDisplayer extends Canvas{
 			}
 			//TODO set finished photo
 			
-			
+			gc.clearRect(0, 0, W, H);
 			gc.setFill(Color.WHITE);
 			
 			for(int i=0;i<pipeGame.size();i++) {
@@ -276,4 +323,7 @@ public class PipeDisplayer extends Canvas{
 		}
 		
 	}
+	
+
+
 }

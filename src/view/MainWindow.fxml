@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import view.PipeDisplayer?>
 
-<BorderPane prefHeight="442.0" prefWidth="463.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
+<BorderPane fx:id="window"  prefHeight="442.0" prefWidth="463.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
    <top>
       <MenuBar prefHeight="25.0" prefWidth="300.0" BorderPane.alignment="CENTER">
         <menus>
@@ -65,8 +65,8 @@
       </HBox>
    </bottom>
    <center>
-      <PipeDisplayer fx:id="pipeDisplayer" height="399.0" width="400.0" BorderPane.alignment="CENTER" s="./resources/spongeBoB/sad spongeBob.png" hor="./resources/spongeBoB/horizontal.jpeg"
+      <PipeDisplayer fx:id="pipeDisplayer" height="300.0" width="300.0" BorderPane.alignment="CENTER" s="./resources/spongeBoB/sad spongeBob.png" hor="./resources/spongeBoB/horizontal.jpeg"
       seven="./resources/spongeBoB/left-down.jpeg" j="./resources/spongeBoB/left-up.jpeg" f="./resources/spongeBoB/right-down.jpeg" L="./resources/spongeBoB/right-up.jpeg" ver="./resources/spongeBoB/vertical.jpeg"
-      g="./resources/spongeBoB/sponge pinnapple.png"/>
+      g="./resources/spongeBoB/sponge pinnapple.png" />
    </center>
 </BorderPane>
