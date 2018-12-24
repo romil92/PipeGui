@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-import com.sun.javafx.tk.Toolkit;
+//import com.sun.javafx.tk.Toolkit;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -20,8 +20,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+//import sun.text.resources.cldr.ext.FormatData_en_CH;
 
 public class PipeDisplayer extends Canvas{
+
 
 	ArrayList<String> pipeGame;
 	private StringProperty s;
@@ -35,6 +37,7 @@ public class PipeDisplayer extends Canvas{
 	private StringProperty ver;
 	@FXML
 	PipeDisplayer pipeDisplayer;
+	
 	
 	public String getHor() {
 		return hor.get();
@@ -121,39 +124,43 @@ public class PipeDisplayer extends Canvas{
 		this.finished = finished;
 	}
 	
-	public void setPipeDisplayer(File game) {
-		System.out.println(game);
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader (game));
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+	public void setPipeDisplayer(ArrayList<String> game) {
+		if(game != null) {
+			pipeGame = game;
+			redraw();
 		}
-	    String         line = null;
-	    StringBuilder  stringBuilder = new StringBuilder();
-	    String         ls = System.getProperty("line.separator");
-
-	        try {
-				while((line = reader.readLine()) != null) {
-				    pipeGame.add(line);
-				    //stringBuilder.append("/n");
-				    //stringBuilder.delete(0,stringBuilder.length());
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-	       System.out.println(pipeGame.toString());
-
-	        try {
-				reader.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-	    redraw();
+		
+	}
+	
+	public void changeByclick(int x, int y) {
+		StringBuilder temp = new StringBuilder(pipeGame.get(y));
+		ArrayList<String> a = new ArrayList<String>(pipeGame);
+		
+		switch (temp.charAt(x)) {
+		case 'L':
+			temp.setCharAt(x, 'f');
+			break;
+		case 'f':
+			temp.setCharAt(x, '7');
+			break;
+		case '7':
+			temp.setCharAt(x, 'j');
+			break;
+		case 'j':
+			temp.setCharAt(x, 'L');
+			break;
+		case '-':
+			temp.setCharAt(x, '|');
+			break;
+		case '|':
+			temp.setCharAt(x, '-');
+			break;
+		default:
+			break;
+		}
+		
+		a.set(y, temp.toString());
+		this.setPipeDisplayer(a);
 	}
 	
 	public void redraw() {
@@ -276,4 +283,43 @@ public class PipeDisplayer extends Canvas{
 		}
 		
 	}
+	
+	@Override
+	public boolean isResizable() {
+		return true;
+	}
+
+	@Override
+	public double minHeight(double width) {
+		return 90;
+	}
+
+	@Override
+	public double maxHeight(double width) {
+		return 1200;
+	}
+
+	@Override
+	public double prefHeight(double width) {
+		return minHeight(width);
+	}
+
+	@Override
+	public double minWidth(double height) {
+		return 0;
+	}
+
+	@Override
+	public double maxWidth(double height) {
+		return 1200;
+	}
+
+	@Override
+	public void resize(double width, double height) {
+		super.setWidth(width - 15);
+		super.setHeight(height - 15);
+		redraw();
+	}
+	
+
 }
