@@ -1,8 +1,10 @@
 package view;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -11,7 +13,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class PipeDisplayer extends Canvas{
 
@@ -25,10 +30,36 @@ public class PipeDisplayer extends Canvas{
 	private StringProperty finished;
 	private StringProperty hor;
 	private StringProperty ver;
-
+	private StringProperty music;
+	private Thread musicThread;
+	private MediaPlayer player;
 	@FXML
 	PipeDisplayer pipeDisplayer;
-
+	
+	
+	void stopMusic() {
+		if(this.musicThread!=null) {
+			player.stop();
+			this.musicThread.stop();
+		}	
+		
+	}
+	
+	void playMusic() {
+		
+		 File file = new File(music.get());
+		 player =new MediaPlayer(new Media(file.toURI() .toString()));
+		 player.setOnEndOfMedia(musicThread=new Thread(new Runnable() {
+		       public void run() {
+		         player.seek(Duration.ZERO);
+		       }
+		   }));
+		  player.play();
+		
+	
+		
+		
+	}
 	
 	public void pipeClicked(int x,int y) {
 		StringBuilder row=new StringBuilder(pipeGame.get(y));
@@ -117,6 +148,12 @@ public class PipeDisplayer extends Canvas{
 		this.f.set(f);
 	}
 
+	public String getMusic() {
+		return music.get();
+	}
+	public void setMusic(String music) {
+		this.music.set(music);
+	}
 	public String getJ() {
 		return j.get();
 	}
@@ -149,6 +186,10 @@ public class PipeDisplayer extends Canvas{
 		this.seven=new SimpleStringProperty();
 		this.ver=new SimpleStringProperty();
 		this.hor=new SimpleStringProperty();
+		this.music=new SimpleStringProperty();
+		this.musicThread=null;
+		this.player=null;
+		
 	}
 	
 	public void setFinished(StringProperty finished) {
@@ -159,6 +200,21 @@ public class PipeDisplayer extends Canvas{
 		pipeGame=game;
 		if(pipeGame!=null)
 			redraw();
+	}
+	public void setTheme(Theme t) {
+		s.set(t.get_s());
+		f.set(t.get_f());
+		g.set(t.get_g());
+		j.set(t.get_j());
+		L.set(t.get_L());
+		finished.set(t.get_finished());
+		seven.set(t.get_seven());
+		ver.set(t.get_ver());
+		hor.set(t.get_hor());
+		music.set(t.get_music());
+		
+		redraw();
+		
 	}
 	
 	@Override
@@ -209,6 +265,7 @@ public class PipeDisplayer extends Canvas{
 			double H=this.getHeight();
 			double w=W/pipeGame.get(0).length();
 			double h=H/pipeGame.size();
+		
 			
 			GraphicsContext gc=this.getGraphicsContext2D();
 			Image startImage=null;

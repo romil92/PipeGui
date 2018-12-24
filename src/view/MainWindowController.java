@@ -37,8 +37,31 @@ public class MainWindowController implements Initializable{
 		super();
 		
 	}
+	public void doraTheme() {
+		Theme t=new Theme();
+		pipeDisplayer.stopMusic();
+		t.setTheme("./resources/Dora/dora.jpg", "./resources/Dora/buts.gif",
+				"./resources/spongeBoB/right-up.jpeg", "./resources/spongeBoB/right-down.jpeg",
+				"./resources/spongeBoB/left-up.jpeg", "./resources/spongeBoB/left-down.jpeg",
+				"./resources/spongeBoB/horizontal.jpeg", "./resources/spongeBoB/vertical.jpeg",
+				"./resources/spongeBoB/closing.wav", "./resources/spongeBoB/happy_sponge.png");
+		pipeDisplayer.setTheme(t);
+		pipeDisplayer.playMusic();
+	}
 
-
+	public void spongeBobTheme() {
+		Theme t=new Theme();
+		pipeDisplayer.stopMusic();
+		t.setTheme("./resources/spongeBoB/happy_sponge.png", "./resources/spongeBoB/sponge pinnapple.png",
+				"./resources/spongeBoB/right-up.jpeg", "./resources/spongeBoB/right-down.jpeg",
+				"./resources/spongeBoB/left-up.jpeg", "./resources/spongeBoB/left-down.jpeg",
+				"./resources/spongeBoB/horizontal.jpeg", "./resources/spongeBoB/vertical.jpeg",
+				"./resources/spongeBoB/closing.wav", "./resources/spongeBoB/happy_sponge.png");
+		pipeDisplayer.setTheme(t);
+		pipeDisplayer.playMusic();
+		
+	}
+	
 	public void openFile() {
 		FileChooser fc=new FileChooser();
 		fc.setTitle("open pipe game file");

@@ -23,9 +23,10 @@
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
+             <Menu mnemonicParsing="false" text="Change Theme"> 
+            	<MenuItem mnemonicParsing="false" onAction="#spongeBobTheme" text="spongeBoB" />
+            	<MenuItem mnemonicParsing="false" onAction="#doraTheme" text="Dora" />
+          	 </Menu>          		
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
