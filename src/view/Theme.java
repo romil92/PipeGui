@@ -29,6 +29,7 @@ public class Theme {
 		this._seven=new String("./resources/spongeBoB/left-down.jpeg");
 		this._ver=new String("./resources/spongeBoB/vertical.jpeg");
 		this._hor=new String("./resources/spongeBoB/horizontal.jpeg");
+		this._music=new String("./resources/spongeBoB/closing.wav");
 	}
 
 	void setTheme(String s,String g,String L, String f, String j ,String seven,String hor,String ver,String music, String finished ) {

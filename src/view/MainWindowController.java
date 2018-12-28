@@ -37,6 +37,8 @@ public class MainWindowController implements Initializable{
 		super();
 		
 	}
+	
+	
 	public void doraTheme() {
 		Theme t=new Theme();
 		pipeDisplayer.stopMusic();
@@ -44,7 +46,7 @@ public class MainWindowController implements Initializable{
 				"./resources/spongeBoB/right-up.jpeg", "./resources/spongeBoB/right-down.jpeg",
 				"./resources/spongeBoB/left-up.jpeg", "./resources/spongeBoB/left-down.jpeg",
 				"./resources/spongeBoB/horizontal.jpeg", "./resources/spongeBoB/vertical.jpeg",
-				"./resources/spongeBoB/closing.wav", "./resources/spongeBoB/happy_sponge.png");
+				"./resources/Dora/Dora The Explorer Theme Song.wav", "./resources/spongeBoB/happy_sponge.png");
 		pipeDisplayer.setTheme(t);
 		pipeDisplayer.playMusic();
 	}
@@ -64,6 +66,7 @@ public class MainWindowController implements Initializable{
 	
 	public void openFile() {
 		FileChooser fc=new FileChooser();
+		
 		fc.setTitle("open pipe game file");
 		fc.setInitialDirectory(new File("./resources"));
 		//fc.getSelectedExtensionFilter()
@@ -108,6 +111,7 @@ public class MainWindowController implements Initializable{
 				}
 		        _game=pipeGame;
 			pipeDisplayer.setPipeDisplayer(_game);
+			
 		}
 		
 	}
@@ -134,6 +138,10 @@ public class MainWindowController implements Initializable{
 					});
 			
 		}
+	public void costumTheme() {
+		
+		
+	}
 		
 
 	

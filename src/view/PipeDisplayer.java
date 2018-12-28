@@ -41,22 +41,23 @@ public class PipeDisplayer extends Canvas{
 		if(this.musicThread!=null) {
 			player.stop();
 			this.musicThread.stop();
+			
 		}	
 		
 	}
 	
 	void playMusic() {
 		
-		 File file = new File(music.get());
-		 player =new MediaPlayer(new Media(file.toURI() .toString()));
-		 player.setOnEndOfMedia(musicThread=new Thread(new Runnable() {
-		       public void run() {
-		         player.seek(Duration.ZERO);
-		       }
-		   }));
-		  player.play();
+
+			 File file = new File(music.get());
+			 player =new MediaPlayer(new Media(file.toURI() .toString()));		 
+			 player.setOnEndOfMedia(musicThread=new Thread(new Runnable() {
+			       public void run() {
+			         player.seek(Duration.ZERO);
+			       }
+			   }));
+			  player.play();
 		
-	
 		
 		
 	}
@@ -198,8 +199,12 @@ public class PipeDisplayer extends Canvas{
 	
 	public void setPipeDisplayer(ArrayList<String> game) {
 		pipeGame=game;
+		this.setTheme(new Theme());
 		if(pipeGame!=null)
 			redraw();
+		if(this.player==null)
+			playMusic();
+		
 	}
 	public void setTheme(Theme t) {
 		s.set(t.get_s());
@@ -212,6 +217,9 @@ public class PipeDisplayer extends Canvas{
 		ver.set(t.get_ver());
 		hor.set(t.get_hor());
 		music.set(t.get_music());
+			
+			
+		
 		
 		redraw();
 		
