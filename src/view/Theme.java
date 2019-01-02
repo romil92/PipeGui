@@ -1,7 +1,12 @@
 package view;
 
+import java.io.File;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class Theme {
 
@@ -16,8 +21,7 @@ public class Theme {
 	private String _hor;
 	private String _ver;
 	private String _music;
-	
-	
+
 	public Theme() {
 		
 		this._s=new String("./resources/spongeBoB/sad spongeBob.png");
@@ -30,8 +34,11 @@ public class Theme {
 		this._ver=new String("./resources/spongeBoB/vertical.jpeg");
 		this._hor=new String("./resources/spongeBoB/horizontal.jpeg");
 		this._music=new String("./resources/spongeBoB/closing.wav");
+		
+		
+		
 	}
-
+		
 	void setTheme(String s,String g,String L, String f, String j ,String seven,String hor,String ver,String music, String finished ) {
 		
 		_s=s;
@@ -44,8 +51,7 @@ public class Theme {
 		_ver=ver;
 		_music=music;
 		_finished=finished;
-		
-		
+
 	}
 	
 	public String get_s() {

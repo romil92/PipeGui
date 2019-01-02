@@ -10,8 +10,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javax.xml.datatype.Duration;
+
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -25,6 +31,12 @@ public class MainWindowController implements Initializable{
 	@FXML 
 	BorderPane window;
 	
+	@FXML
+	TextField moves;
+	@FXML
+	TextField time=new TextField();
+	private int seconds;
+	Timeline timer;
 	ArrayList<String> _game;
 	
 	public void start() {
@@ -35,9 +47,31 @@ public class MainWindowController implements Initializable{
 	
 	public MainWindowController() {
 		super();
-		
+		moves=new TextField("0");
+		moves.setText("0");
+		seconds=0;
 	}
 	
+	public void showSteps() {
+		
+		moves.setText(pipeDisplayer.steps.toString());
+		
+		
+	}
+	public void initTime() {
+		if (timer!=null)
+		{
+			timer.stop();
+			seconds=0;
+		}
+		time.setText(Integer.toString(seconds));
+		timer = new Timeline(new KeyFrame(javafx.util.Duration.millis(1000), e->{
+			seconds++;
+			time.setText(Integer.toString(seconds));
+		}));
+		timer.setCycleCount(Animation.INDEFINITE);
+		timer.play();
+	}
 	
 	public void doraTheme() {
 		Theme t=new Theme();
@@ -109,9 +143,18 @@ public class MainWindowController implements Initializable{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+		        if((_game!=null)&&(!_game.containsAll(pipeGame))) {
+		        	pipeDisplayer.stopMusic();
+			        pipeDisplayer.setPipeDisplayer(pipeGame);
+					pipeDisplayer.playMusic();
+		        }
+		        else
+		        	  pipeDisplayer.setPipeDisplayer(pipeGame);
 		        _game=pipeGame;
-			pipeDisplayer.setPipeDisplayer(_game);
-			
+		        pipeDisplayer.steps=0;
+		        moves.setText("0");
+		        initTime();
+					
 		}
 		
 	}
@@ -121,6 +164,7 @@ public class MainWindowController implements Initializable{
 			
 			if(_game==null) {
 				openFile();
+				pipeDisplayer.playMusic();
 			}
 			
 			pipeDisplayer.setPipeDisplayer(_game);
@@ -131,7 +175,11 @@ public class MainWindowController implements Initializable{
 							double h=pipeDisplayer.getHeight()/_game.size();
 							int x= (int)(click.getX()/w);
 							int y=(int)(click.getY()/h);
-							pipeDisplayer.pipeClicked(x, y);
+							if(pipeDisplayer.pipeClicked(x, y)) {
+								pipeDisplayer.steps++;
+								showSteps();
+								
+							}
 							//System.out.println("location: "+x+","+y+" ,canvas size: "+w+","+h);
 						}
 					

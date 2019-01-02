@@ -11,6 +11,8 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
@@ -20,6 +22,7 @@ import javafx.util.Duration;
 
 public class PipeDisplayer extends Canvas{
 
+	
 	private ArrayList<String> pipeGame;
 	private StringProperty s;
 	private	StringProperty g;
@@ -33,10 +36,9 @@ public class PipeDisplayer extends Canvas{
 	private StringProperty music;
 	private Thread musicThread;
 	private MediaPlayer player;
+	Integer steps;
 	@FXML
 	PipeDisplayer pipeDisplayer;
-	
-	
 	void stopMusic() {
 		if(this.musicThread!=null) {
 			player.stop();
@@ -62,34 +64,40 @@ public class PipeDisplayer extends Canvas{
 		
 	}
 	
-	public void pipeClicked(int x,int y) {
+	public Boolean pipeClicked(int x,int y) {
 		StringBuilder row=new StringBuilder(pipeGame.get(y));
 		ArrayList<String> a=new ArrayList<String>(pipeGame);
 		char clicked =row.charAt(x);
-		
+		boolean flag=false;
 		switch (clicked) {
 		case 'f':
 			row.setCharAt(x, '7');
+			flag=true;
 			break;
 
 		case 'j':
 			row.setCharAt(x, 'L');
+			flag=true;
 			break;
 		
 		case 'L':
 			row.setCharAt(x, 'f');
+			flag=true;
 			break;
 		
 		case '7':
 			row.setCharAt(x, 'j');
+			flag=true;
 			break;
 			
 		case '|':
 			row.setCharAt(x, '-');
+			flag=true;
 			break;
 	
 		case '-':
 			row.setCharAt(x, '|');
+			flag=true;
 			break;
 	
 		default:
@@ -98,9 +106,11 @@ public class PipeDisplayer extends Canvas{
 		
 		a.set(y,row.toString());
 		this.setPipeDisplayer(a);
-		
+		return flag;
+
 		
 	}
+
 	public String getHor() {
 		return hor.get();
 	}
@@ -173,9 +183,7 @@ public class PipeDisplayer extends Canvas{
 
 	public String getFinished() {
 		return finished.get();
-	}
-	
-
+	}	
 	public PipeDisplayer() {
 		pipeGame = new ArrayList<String>();
 		this.s=new SimpleStringProperty();
@@ -190,7 +198,8 @@ public class PipeDisplayer extends Canvas{
 		this.music=new SimpleStringProperty();
 		this.musicThread=null;
 		this.player=null;
-		
+		this.music.set(new Theme().get_music());
+		this.steps=0;
 	}
 	
 	public void setFinished(StringProperty finished) {
@@ -198,12 +207,15 @@ public class PipeDisplayer extends Canvas{
 	}
 	
 	public void setPipeDisplayer(ArrayList<String> game) {
+		
+		if(pipeGame==null) {
+			this.setTheme(new Theme());
+			
+		}
 		pipeGame=game;
-		this.setTheme(new Theme());
 		if(pipeGame!=null)
 			redraw();
-		if(this.player==null)
-			playMusic();
+		
 		
 	}
 	public void setTheme(Theme t) {
@@ -217,7 +229,9 @@ public class PipeDisplayer extends Canvas{
 		ver.set(t.get_ver());
 		hor.set(t.get_hor());
 		music.set(t.get_music());
-			
+	
+		//playMusic();
+		
 			
 		
 		
