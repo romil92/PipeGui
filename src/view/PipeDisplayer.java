@@ -18,9 +18,14 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 //import sun.text.resources.cldr.ext.FormatData_en_CH;
+import javafx.util.Duration;
 
 public class PipeDisplayer extends Canvas{
 
@@ -32,12 +37,40 @@ public class PipeDisplayer extends Canvas{
 	private StringProperty f;
 	private StringProperty j;
 	private StringProperty seven;
-	private StringProperty finished;
 	private StringProperty hor;
 	private StringProperty ver;
+	private StringProperty music;
+	private StringProperty finished;
+	private Thread musicThread;
+	private MediaPlayer player;
+	private StringProperty back;
+
+	private int counter;
 	@FXML
 	PipeDisplayer pipeDisplayer;
+
 	
+	void stopMusic() {
+		if(this.musicThread!=null) {
+			player.stop();
+			this.musicThread.stop();
+			
+		}	
+		
+	}
+	
+	void playMusic() {
+		
+		 File file = new File(music.get());
+		 player =new MediaPlayer(new Media(file.toURI() .toString()));		 
+		 player.setOnEndOfMedia(musicThread=new Thread(new Runnable() {
+		       public void run() {
+		         player.seek(Duration.ZERO);
+		       }
+		   }));
+		  player.play();
+	
+}
 	
 	public String getHor() {
 		return hor.get();
@@ -107,6 +140,14 @@ public class PipeDisplayer extends Canvas{
 		return finished.get();
 	}
 
+	public void setBack(String back) {
+		this.back.set(back);
+	}
+
+	public String getBack() {
+		return back.get();
+	}
+	
 	public PipeDisplayer() {
 		pipeGame = new ArrayList<String>();
 		this.s=new SimpleStringProperty();
@@ -114,10 +155,15 @@ public class PipeDisplayer extends Canvas{
 		this.g=new SimpleStringProperty();
 		this.j=new SimpleStringProperty();
 		this.L=new SimpleStringProperty();
-		this.finished=new SimpleStringProperty();
 		this.seven=new SimpleStringProperty();
 		this.ver=new SimpleStringProperty();
 		this.hor=new SimpleStringProperty();
+		this.music=new SimpleStringProperty();
+		this.finished=new SimpleStringProperty();
+		this.music.set(new Theme().get_music());
+		this.counter = 0;
+		this.back=new SimpleStringProperty();
+
 	}
 	
 	public void setFinished(StringProperty finished) {
@@ -132,28 +178,52 @@ public class PipeDisplayer extends Canvas{
 		
 	}
 	
-	public void changeByclick(int x, int y) {
+	
+	public void setTheme(Theme t) {
+		s.set(t.get_s());
+		f.set(t.get_f());
+		g.set(t.get_g());
+		j.set(t.get_j());
+		L.set(t.get_L());
+		finished.set(t.get_finished());
+		seven.set(t.get_seven());
+		ver.set(t.get_ver());
+		hor.set(t.get_hor());
+		music.set(t.get_music());
+		back.set(t.get_back());
+		
+		redraw();
+	}	
+
+	
+	public Boolean changeByclick(int x, int y) {
 		StringBuilder temp = new StringBuilder(pipeGame.get(y));
 		ArrayList<String> a = new ArrayList<String>(pipeGame);
-		
+	    boolean flag = false;
 		switch (temp.charAt(x)) {
 		case 'L':
 			temp.setCharAt(x, 'f');
+			flag = true;
 			break;
 		case 'f':
 			temp.setCharAt(x, '7');
+			flag = true;
 			break;
 		case '7':
 			temp.setCharAt(x, 'j');
+			flag = true;
 			break;
 		case 'j':
 			temp.setCharAt(x, 'L');
+			flag = true;
 			break;
 		case '-':
 			temp.setCharAt(x, '|');
+			flag = true;
 			break;
 		case '|':
 			temp.setCharAt(x, '-');
+			flag = true;
 			break;
 		default:
 			break;
@@ -161,6 +231,7 @@ public class PipeDisplayer extends Canvas{
 		
 		a.set(y, temp.toString());
 		this.setPipeDisplayer(a);
+		return flag;
 	}
 	
 	public void redraw() {
@@ -233,22 +304,28 @@ public class PipeDisplayer extends Canvas{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			Image backImage=null;
+			try {
+				backImage = new Image(new FileInputStream(back.get()));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//TODO set finished photo
 			
 			
 			gc.setFill(Color.WHITE);
+			gc.drawImage(backImage, 0, 0, W, H);
 			
 			for(int i=0;i<pipeGame.size();i++) {
 				for(int j=0;j<pipeGame.get(0).length();j++) {
 					switch (pipeGame.get(i).charAt(j)) {
 					case 's':
-						;
-						gc.fillRect(j*w,i*h,w,h);
 						gc.drawImage(startImage,j*w,i*h,w,h);//840.1350,j*w,i*h
 						break;
 					
 					case 'g':
-						gc.fillRect(j*w,i*h,w,h);
 						gc.drawImage(goal,j*w,i*h,w,h);
 						break;
 					case '-':
